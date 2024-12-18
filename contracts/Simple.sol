@@ -136,4 +136,27 @@ contract FIRManagement {
         }
         return result;
     }
+    function viewAllFIRCourt() public view onlyRole("Court") returns (FIR[] memory) {
+        uint256 totalFIRs = firCounter;
+        uint256 count = 0;
+
+        // Count the FIRs in Approved state
+        for (uint256 i = 1; i <= totalFIRs; i++) {
+            if (firs[i].status == FIRStatus.Investigated) {
+                count++;
+            }
+        }
+
+        // Create an array for Approved FIRs
+        FIR[] memory result = new FIR[](count);
+        uint256 counter = 0;
+
+        for (uint256 i = 1; i <= totalFIRs; i++) {
+            if (firs[i].status == FIRStatus.Investigated) {
+                result[counter] = firs[i];
+                counter++;
+            }
+        }
+        return result;
+    }
 }
